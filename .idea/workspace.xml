@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="41c80b92-1d7d-40ad-85b0-9169ad10328e" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="scratch_ml_scala1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="userSettingsFile" value="C:\apache-maven-3.6.0\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1aYuzNOwysfj2PaYlFktydhZBze" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/scala/com/strings/model/tree" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.strings.model.tree" />
+      <recent name="com.strings.model.linear" />
+      <recent name="com.strings.model.classification" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\morni\Desktop\github\scratch_ml_scala1\src\main\scala\com\strings\model\tree" />
+      <recent name="C:\Users\morni\Desktop\github\scratch_ml_scala1\src\main\scala" />
+      <recent name="C:\Users\morni\Desktop\github\scratch_ml_scala1\src\main\scala\com\strings\model" />
+      <recent name="C:\Users\morni\Desktop\github\scratch_ml_scala1\src\main\scala\com\strings\loss" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.ClassificationTree">
+    <configuration name="ClassificationTree" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.strings.model.tree.ClassificationTree" />
+      <module name="scratch_ml_scala1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.strings.model.tree.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DecisionTreeII" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.strings.ignore.DecisionTreeII" />
+      <module name="scratch_ml_scala1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.strings.ignore.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PolyRegression" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.strings.model.linear.PolyRegression" />
+      <module name="scratch_ml_scala1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.strings.model.linear.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RegressionTree" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.strings.model.tree.RegressionTree" />
+      <module name="scratch_ml_scala1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.strings.model.tree.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RidgeRegression" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.strings.model.linear.RidgeRegression" />
+      <module name="scratch_ml_scala1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.strings.model.linear.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ClassificationTree" />
+        <item itemvalue="Application.RidgeRegression" />
+        <item itemvalue="Application.PolyRegression" />
+        <item itemvalue="Application.RegressionTree" />
+        <item itemvalue="Application.DecisionTreeII" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SbtLocalSettings">
+    <option name="projectSyncType">
+      <map>
+        <entry key="$USER_HOME$/Downloads/fastml4j-master" value="PREVIEW" />
+        <entry key="E:/github/scala_source/MachineLearningTests-4605e20ef36d77f569d89c385a4012a0ac492909" value="PREVIEW" />
+        <entry key="E:/github/scala_source/keystone-old-master" value="PREVIEW" />
+        <entry key="E:/github/scala_source/mlia-scala-master" value="PREVIEW" />
+      </map>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="41c80b92-1d7d-40ad-85b0-9169ad10328e" name="Default Changelist" comment="" />
+      <created>1586925110026</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586925110026</updated>
+      <workItem from="1586925112842" duration="25333000" />
+      <workItem from="1586999610772" duration="3952000" />
+      <workItem from="1587003579380" duration="24532000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/main/scala/com/strings/ignore/DecisionTree.scala</url>
+          <line>108</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
