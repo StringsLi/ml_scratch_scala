@@ -3,6 +3,9 @@ package com.strings.model.tree
 class ClassificationTree(override val min_samples_split:Int=2,
                          override val min_impurity:Double=1e-7,
                          override val max_depth:Int = 5) extends DecisionTree {
+
+  var featureIndex: Array[Int] = null
+
   override def init_impurity_calc(): Unit = {
     _impurity_calculation = EntropyCalcGain
   }
@@ -28,6 +31,7 @@ object ClassificationTree{
     println(dotS)
 
     println(dtree.root.toString)
+
     val pred =  dtree.predict(data.map(_._2)).zip(data.map(_._1)).map(x => if(x._1 == x._2) 1 else 0 )
     println("准确率为: "+pred.sum.toDouble / data.size)
   }

@@ -22,5 +22,24 @@ object Utils {
     y.map(x => (x - mean) * (x - mean)).sum / size
   }
 
+  def clip(value: Double) = if (value < 0.00001) 0.00001
+  else if (value > 0.99999) 0.99999
+  else value
+
+  def one_hot(y: Array[Double]): Array[Array[Double]] = {
+    val n_samples = y.length
+    val n_classes = y.toSet.size
+    val one_hot = Array.ofDim[Double](n_samples, n_classes)
+    for (i <- 0 to n_samples - 1) {
+      one_hot(i)(y(i).toInt) = 1.0
+    }
+    one_hot
+  }
+
+  def split(y:Array[Double]):(Array[Double],Array[Double]) = {
+    val col = y.length / 2
+    (y.slice(0,col),y.slice(col,y.length))
+  }
+
 
 }

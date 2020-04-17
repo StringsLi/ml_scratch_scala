@@ -3,7 +3,6 @@ package com.strings.model.linear
 import breeze.linalg.{DenseMatrix => BDM, DenseVector => BDV}
 import com.strings.loss.LossFunc
 import com.strings.model.Model
-
 import scala.collection.mutable.ArrayBuffer
 
 abstract class BaseRegression(val lr:Double = 0.1,
