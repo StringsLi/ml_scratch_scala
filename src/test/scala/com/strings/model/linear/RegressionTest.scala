@@ -10,7 +10,7 @@ object RegressionTest {
     val x_train: BDM[Double] = BDM.rand(num_examples, num_inputs)
     val ones = BDM.ones[Double](num_examples, 1)
     val x_cat = BDM.horzcat(ones, x_train)
-    val nos = BDV.rand(num_examples) * 0.1
+    val nos = BDV.rand(num_examples) * 0.01
     val y_train = x_cat * BDV(2.8, 6.4, -2.2) + nos
 
     val regArr:Array[BaseRegression] = new Array[BaseRegression](5)
@@ -26,12 +26,12 @@ object RegressionTest {
     }
 
     /**
-     * 结果如下：
-     * com.strings.model.linear.LinearRegression权重为：DenseVector(2.7106222483759748, 1.8594622470359834, 1.097174412563561)
-     * com.strings.model.linear.LassoRegression权重为：DenseVector(2.7106031853614714, 1.859427076363167, 1.0971391121125451)
-     * com.strings.model.linear.RidgeRegression权重为：DenseVector(2.710567584587612, 1.859422689743183, 1.0971537032365524)
-     * com.strings.model.linear.ElasticRegression权重为：DenseVector(2.7105485218791485, 1.8593875198553513, 1.097118403574378)
-     * com.strings.model.linear.PolyRegression权重为：DenseVector(2.8922397117660315, 0.21329382239657957, 0.05571585410203446, -0.06571378265679607, 6.151929859284106, -2.162693247051346)
+     *
+     * * com.strings.model.linear.LinearRegression权重为：DenseVector(2.7106222483759748, 1.8594622470359834, 1.097174412563561)
+     * * com.strings.model.linear.LassoRegression权重为：DenseVector(2.7106031853614714, 1.859427076363167, 1.0971391121125451)
+     * * com.strings.model.linear.RidgeRegression权重为：DenseVector(2.710567584587612, 1.859422689743183, 1.0971537032365524)
+     * * com.strings.model.linear.ElasticRegression权重为：DenseVector(2.7105485218791485, 1.8593875198553513, 1.097118403574378)
+     * * com.strings.model.linear.PolyRegression权重为：DenseVector(2.8922397117660315, 0.21329382239657957, 0.05571585410203446, -0.06571378265679607, 6.151929859284106, -2.162693247051346)
      */
 
   }

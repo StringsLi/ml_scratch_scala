@@ -5,7 +5,7 @@ import com.strings.loss.SquareLoss
 
 class LinearRegression(override val lr:Double = 0.1,
                        override val tolerance:Double = 1e-6,
-                       override val max_iters:Int = 10 ) extends BaseRegression{
+                       override val max_iters:Int = 500 ) extends BaseRegression{
 
   override def init_cost() = {
     cost_func = new SquareLoss

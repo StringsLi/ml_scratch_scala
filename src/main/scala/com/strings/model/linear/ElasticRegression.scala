@@ -5,7 +5,7 @@ import com.strings.loss.{SquareLossWithL1L2, SquareLossWithL2}
 
 class ElasticRegression(override val lr:Double = 0.1,
                        override val tolerance:Double = 1e-6,
-                       override val max_iters:Int = 10,
+                       override val max_iters:Int = 500,
                        val alpha:Double = 0.5,
                       val l1_ration:Double =0.5) extends BaseRegression{
 
