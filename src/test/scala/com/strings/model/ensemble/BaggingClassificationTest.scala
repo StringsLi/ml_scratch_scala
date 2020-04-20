@@ -3,7 +3,7 @@ package com.strings.model.ensemble
 import com.strings.data.Data
 import com.strings.model.metric.Metric
 
-object RandomForestClassificationTest {
+object BaggingClassificationTest {
 
   def main(args: Array[String]): Unit = {
     val data = Data.iris4MutilClassification()
@@ -13,7 +13,7 @@ object RandomForestClassificationTest {
     val testX = train_test_data._3
     val testY = train_test_data._4
 
-    val clf = new RandomForest(nEstimator = 30,colsSample = "log2")
+    val clf = new Bagging()
     clf.fit(trainX,trainY)
     val pred = clf.predict(testX)
     val acc =  Metric.accuracy(pred,testY) * 100

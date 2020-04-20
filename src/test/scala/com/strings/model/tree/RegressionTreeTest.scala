@@ -1,9 +1,9 @@
-package com.strings.model.ensemble
+package com.strings.model.tree
 
 import com.strings.data.Data
 import com.strings.model.metric.Metric
 
-object XgBoostRegressionTest {
+object RegressionTreeTest {
 
   def main(args: Array[String]): Unit = {
     val data = Data.iris4Regression()
@@ -13,13 +13,17 @@ object XgBoostRegressionTest {
     val testX = train_test_data._3
     val testY = train_test_data._4
 
-    val reg = new XGBoostRegression(nEstimators = 30,lr = 0.01,minSampleSplit = 2,maxDepth = 3)
+    val reg = new RegressionTree()
     reg.fit(trainX,trainY)
     val pred = reg.predict(testX)
     pred.zip(testY).foreach(println)
 
     val acc =  Metric.rmse(pred,testY)
     println(f"rmse: $acc")
+
+    val dotGraph = reg.dot(reg.root)
+    println(dotGraph)
+    println(reg.root.toString)
   }
 
 }

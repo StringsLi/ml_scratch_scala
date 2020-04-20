@@ -3,17 +3,17 @@ package com.strings.model.ensemble
 import com.strings.data.Data
 import com.strings.model.metric.Metric
 
-object GBDTClassificationTest {
+object XGBoostClassificationTest {
 
   def main(args: Array[String]): Unit = {
     val data = Data.iris4BinaryClassification()
-    val train_test_data = Data.train_test_split(data._1,data._2,0.3,seed = 1224L)
+    val train_test_data = Data.train_test_split(data._1,data._2,0.2,seed = 12354L)
     val trainX = train_test_data._1
     val trainY = train_test_data._2
     val testX = train_test_data._3
     val testY = train_test_data._4
 
-    val clf = new GBDTClassification(nEstimators = 10)
+    val clf = new XGBoostClassification(nEstimators = 20,lr = 0.01)
     clf.fit(trainX,trainY)
     val pred = clf.predict(testX)
     val acc =  Metric.accuracy(pred,testY) * 100
