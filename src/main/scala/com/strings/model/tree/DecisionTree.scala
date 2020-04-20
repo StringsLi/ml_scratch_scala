@@ -81,7 +81,7 @@ abstract class DecisionTree(val min_samples_split:Int=2,
         builder.append(" %d [label=<class = %s>, fillcolor=\"#00000000\", shape=ellipse];\n".format(id, node.value))
       }
       else {
-        builder.append(" %d [label=<featur: %d &le; %s<br/>>, fillcolor=\"#00000000\"];\n".format(id, node.featureIndex, node.threshold))
+        builder.append(" %d [label=<feature: %d &le; %s<br/>>, fillcolor=\"#00000000\"];\n".format(id, node.featureIndex, node.threshold))
       }
       // add edge
       if (parent >= 0) {
@@ -99,7 +99,7 @@ abstract class DecisionTree(val min_samples_split:Int=2,
 
       if (node.tnode != null) {
         n += 1
-        queue.enqueue(dotNode(id, n+1, node.tnode))
+        queue.enqueue(dotNode(id, n, node.tnode))
       }
 
     }

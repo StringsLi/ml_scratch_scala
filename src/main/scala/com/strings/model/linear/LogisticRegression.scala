@@ -25,25 +25,3 @@ class LogisticRegression(override val lr:Double = 0.1,
   }
 
 }
-
-object LogisticRegression{
-
-  def main(args: Array[String]): Unit = {
-    val dataS = scala.io.Source.fromFile("D:/data/iris.csv").getLines().toSeq.tail
-      .map{_.split(",").filter(_.length() > 0).map(_.toDouble)}
-      .toArray
-    val data = DenseMatrix(dataS:_*)
-
-    val features = data(0 to 98, 0 to 3)
-    val labels = data(0 to 98, 4)
-
-    val model = new LogisticRegression()
-    model.fit(features,labels)
-    val predictions = model.predictClass(features)
-//    println(model.predict(features))
-    val predictionsNlabels = predictions.toArray.zip(labels.toArray)
-    val rate = predictionsNlabels.filter(f => f._1==f._2).length.toDouble/predictionsNlabels.length.toDouble
-    println("正确率为：" + rate)
-  }
-
-}

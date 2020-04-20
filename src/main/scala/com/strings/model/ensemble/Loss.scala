@@ -1,6 +1,6 @@
 package com.strings.model.ensemble
 
-import com.strings.model.tree.Utils
+import com.strings.utils.Utils
 
 trait Loss{
   def hess(pred:Array[Double],label:Array[Double]):Array[Double]
@@ -14,7 +14,7 @@ object SquareLoss extends Loss{
   }
 
   override def gradient(pred: Array[Double], label: Array[Double]): Array[Double] = {
-    label.zip(pred).map(x => -(x._1 - x._2)/x._2)
+    label.zip(pred).map(x => -(x._1 - x._2))
   }
 
   override def transform(pred: Array[Double]): Array[Double] = pred
@@ -25,7 +25,7 @@ object LogisticLoss extends Loss{
     val  pred1 = transform(pred)
     val  ret = new Array[Double](pred.length)
     for(i<- 0 until ret.length){
-      ret(i) = pred1(i) *(1.0 - pred1(i))
+      ret(i) = pred1(i) * (1.0 - pred1(i))
     }
     ret
   }
