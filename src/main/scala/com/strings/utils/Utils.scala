@@ -1,5 +1,7 @@
 package com.strings.utils
 
+import breeze.linalg.{DenseMatrix, DenseVector}
+
 object Utils {
 
   def log2(x: Double) = Math.log(x) / Math.log(2)
@@ -39,6 +41,30 @@ object Utils {
   def split(y:Array[Array[Double]]):(Array[Double],Array[Double]) = {
     (y.map(_(0)),y.map(_(1)))
   }
+
+
+  def rowsToMatrix(in: TraversableOnce[DenseVector[Double]]): DenseMatrix[Double] = {
+    rowsToMatrix(in.toArray)
+  }
+
+  def rowsToMatrix(inArr: Array[DenseVector[Double]]): DenseMatrix[Double] = {
+    val nRows = inArr.length
+    val nCols = inArr(0).length
+    val outArr = new Array[Double](nRows * nCols)
+    var i = 0
+    while (i < nRows) {
+      var j = 0
+      val row = inArr(i)
+      while (j < nCols) {
+        outArr(i + nRows * j) = row(j)
+        j = j + 1
+      }
+      i = i + 1
+    }
+    val outMat = new DenseMatrix[Double](nRows, nCols, outArr)
+    outMat
+  }
+
 
 
 }

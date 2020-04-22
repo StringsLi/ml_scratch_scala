@@ -3,7 +3,7 @@ package com.strings.data
 object Data {
 
   val irisData = scala.io.Source.fromFile("D:/data/iris.csv")
-            .getLines().toSeq.tail
+            .getLines().toSeq
             .map{_.split(",")
             .filter(_.length() > 0)
             .map(_.toDouble)}
