@@ -1,6 +1,6 @@
 package com.strings.utils
 
-import breeze.linalg.{DenseMatrix, DenseVector}
+import breeze.linalg.{DenseMatrix, DenseVector, squaredDistance}
 
 object Utils {
 
@@ -40,6 +40,17 @@ object Utils {
 
   def split(y:Array[Array[Double]]):(Array[Double],Array[Double]) = {
     (y.map(_(0)),y.map(_(1)))
+  }
+
+  def pair_distance(X:List[DenseVector[Double]]):Array[Array[Double]] = {
+    val nSample = X.length
+    val pairDist:Array[Array[Double]] = Array.ofDim[Double](nSample,nSample)
+    for(i <- 0 until nSample){
+      for(j <- 0 until nSample){
+        pairDist(i)(j) = squaredDistance(X(i),X(j))
+      }
+    }
+    pairDist
   }
 
 

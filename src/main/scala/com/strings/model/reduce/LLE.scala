@@ -1,10 +1,14 @@
 package com.strings.model.reduce
 
-import breeze.linalg.{DenseMatrix, DenseVector, diag, eig, inv, pinv, sum}
+import breeze.linalg.{DenseMatrix, DenseVector, diag, eig, pinv, sum}
 import com.strings.data.Data
-import com.strings.utils.Utils
+import com.strings.utils.{FileUtils, Utils}
 
-//k the number of neighbors
+/**
+ * scala 版的lle好像有些问题，需要再调试
+ * @param k  the number of neighbors
+ */
+
 class LLE(var k:Int = 50) {
 
   /**
@@ -43,7 +47,7 @@ class LLE(var k:Int = 50) {
    * @param d dimension
    *          Nxd reduced data matrix.
    */
-  def transform(X:List[DenseVector[Double]],d:Int) = {
+  def transform(X:List[DenseVector[Double]],d:Int):DenseMatrix[Double] = {
     val near = knn(X)
     val W = findW(X,near)
     val n = W.length
@@ -52,8 +56,7 @@ class LLE(var k:Int = 50) {
     val M = diffMatrix.t * diffMatrix
     val eigen = eig(M)
     val eigenvectors = (0 until eigen.eigenvectors.cols).map(eigen.eigenvectors(::, _).toDenseMatrix.t)
-    val topEigenvectorsNvalue = eigenvectors.zip(eigen.eigenvalues.toArray).sortBy(x => scala.math.abs(x._2)).take(d)
-    val topDsmallv = topEigenvectorsNvalue.map(_._2)
+    val topEigenvectorsNvalue = eigenvectors.zip(eigen.eigenvalues.toArray).sortBy(x => scala.math.abs(x._2)).slice(1,d+1)
     DenseMatrix.horzcat(topEigenvectorsNvalue.map(_._1):_*)
   }
 }
@@ -62,7 +65,8 @@ object LLE{
   def main(args: Array[String]): Unit = {
     val data = Data.irisData.map(x => DenseVector(x.slice(0,4))).toList
     val lle = new LLE()
-    val W = lle.transform(data,3)
-    println(W)
+    val W = lle.transform(data,2)
+    val file = "D:\\data\\iris_lle.txt"
+    FileUtils.writeFile(W,file)
   }
 }

@@ -1,8 +1,11 @@
 package com.strings.model.reduce
 
+import java.io.{File, PrintWriter}
+
 import breeze.linalg.{*, DenseMatrix, eig}
 import breeze.stats.mean
 import com.strings.data.Data
+import com.strings.utils.FileUtils
 
 object PCA {
 
@@ -31,8 +34,10 @@ object PCA {
   def main(args: Array[String]): Unit = {
     val data = Data.irisData.map(x =>x.slice(0,4))
     val denseMatrix = DenseMatrix(data:_*)
-    val transData = transform(denseMatrix,3)
-    println(transData)
+    val transData = transform(denseMatrix,2)
+
+    val file = "D:\\data\\iris_pca2.txt"
+    FileUtils.writeFile(transData,file)
   }
 
 }

@@ -4,6 +4,7 @@ import breeze.linalg.{*, Axis, DenseMatrix, DenseVector, Transpose, diag, eig, e
 import breeze.numerics.sqrt
 import breeze.stats.mean
 import com.strings.data.Data
+import com.strings.utils.{FileUtils, Utils}
 
 /**
  * Multiple dimensional scaling for dimemsion reducing
@@ -13,24 +14,15 @@ object MDS {
 
   def main(args: Array[String]): Unit = {
     val data = Data.irisData.map(x => DenseVector(x.slice(0,4))).toList
-    val transformData = mds(data,3)
+    val transformData = mds(data,2)
     println(transformData)
+    val file = "D:\\data\\iris_mds.txt"
+    FileUtils.writeFile(transformData,file)
   }
 
-  def pair_distance(X:List[DenseVector[Double]]) = {
-    val nSample = X.length
-    val pairDist:Array[Array[Double]] = Array.ofDim[Double](nSample,nSample)
-
-    for(i <- 0 until nSample){
-      for(j <- 0 until nSample){
-        pairDist(i)(j) = squaredDistance(X(i),X(j))
-      }
-    }
-    DenseMatrix(pairDist:_*)
-  }
 
   def mds(data:List[DenseVector[Double]],k:Int) = {
-    val dist:DenseMatrix[Double] = pair_distance(data)
+    val dist:DenseMatrix[Double] = DenseMatrix(Utils.pair_distance(data):_*)
     val M_r:Transpose[DenseVector[Double]] = mean(dist(::,*))
 //    val M_r1:Transpose[DenseVector[Double]]  = mean(dist, Axis._0)
     val M_c:DenseVector[Double] = mean(dist(*,::))
