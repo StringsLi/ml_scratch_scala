@@ -11,11 +11,11 @@ object BreezeDemo {
       //  println(denseVec)
 
     val denseMatrix1 = DenseMatrix(denseVec,denseVec1)
-    println(denseMatrix1.cols)
+//    println(denseMatrix1.cols)
+    println((denseMatrix1 * 3.0))
+    println((denseMatrix1 :* 3.0))
 
     val ss = denseMatrix1(*,::).map(x => x - denseVec)
-
-    println(ss)
 
     println(denseVec.toDenseMatrix)
 

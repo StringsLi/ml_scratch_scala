@@ -28,7 +28,12 @@ object MDS {
     val M_c:DenseVector[Double] = mean(dist(*,::))
     val meanDist:Double = mean(dist)
 
-    val B = (dist(::,*).map(x => x - M_c - M_r.t) :+ meanDist) :* (-0.5)
+    val B1:DenseMatrix[Double] = dist(::,*).map(x => x - M_c)
+    val B = (B1(*,::).map(x => x - M_r.t )  :+ meanDist):* (-0.5)
+//    val B = (dist(::,*).map(x => x - M_c - M_r.t) :+ meanDist) :* (-0.5)  //计算出来不是矩阵B的每一列以及每一列求和均为0
+
+    println(mean(B(*,::)))
+    println(mean(B(::,*)))
 
     val eigen = eig(B)
     val eigenvectors = (0 until eigen.eigenvectors.cols).map(eigen.eigenvectors(::, _))

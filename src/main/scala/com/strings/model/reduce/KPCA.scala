@@ -8,7 +8,6 @@ import com.strings.utils.{FileUtils, Utils}
 
 class KPCA(val kernel_type:String = "rbf") {
 
-
   def transform(X:List[DenseVector[Double]],n_components:Int = 3,beta:Int = 10) = {
     val mat:DenseMatrix[Double] = DenseMatrix(Utils.pair_distance(X):_*)
     val K = kernel_type match {
@@ -22,7 +21,11 @@ class KPCA(val kernel_type:String = "rbf") {
     val meanDist:Double = mean(K)
 
     // 对核矩阵进行标准化
-    val K_std = K(::,*).map(x => x - M_c - M_r.t) :+ meanDist
+    val K_std1 = K(::,*).map(x => x - M_c)
+    val K_std = K_std1(*,::).map(x => x - M_r.t) :+ meanDist
+
+    println(mean(K_std(*,::)))
+    println(mean(K_std(::,*)))
 
     val eigen = eig(K_std)
     val eigenvectors = (0 until eigen.eigenvectors.cols).map(eigen.eigenvectors(::, _))
