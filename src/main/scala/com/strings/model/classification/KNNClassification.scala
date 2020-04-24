@@ -11,10 +11,10 @@ import com.strings.model.metric.Metric
  * @param distanceFunctype distance function type: Euclidean ,Manhattan
  */
 
-class KNN(k: Int,
-          dataX: DenseMatrix[Double],
-          dataY: Seq[Double],
-          distanceFunctype: String = "Euclidean") extends ClassificationModel {
+class KNNClassification(k: Int,
+                        dataX: DenseMatrix[Double],
+                        dataY: Seq[Double],
+                        distanceFunctype: String = "Euclidean") extends ClassificationModel {
 
  val  distanceFn = distanceFunctype match {
    case "Euclidean" => (v1: DenseVector[Double], v2: DenseVector[Double])
@@ -38,7 +38,7 @@ class KNN(k: Int,
 
 }
 
-object KNN{
+object KNNClassification{
 
   def main(args: Array[String]): Unit = {
     val data = Data.iris4MutilClassification()
@@ -48,7 +48,7 @@ object KNN{
     val testX = train_test_data._3
     val testY = train_test_data._4
 
-    val knn = new KNN(k = 4,DenseMatrix(trainX:_*),trainY)
+    val knn = new KNNClassification(k = 4,DenseMatrix(trainX:_*),trainY)
     val pred = knn.predict(DenseMatrix(testX:_*))
     val acc =  Metric.accuracy(pred.toArray,testY) * 100
     println(f"准确率为: $acc%-5.2f%%")
