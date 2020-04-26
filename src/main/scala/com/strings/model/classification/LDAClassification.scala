@@ -5,6 +5,8 @@ import breeze.stats.mean
 import com.strings.data.Data
 import com.strings.model.metric.Metric
 
+import scala.collection.mutable.ArrayBuffer
+
 /**
  * @param k reduce k dimension
  */
@@ -24,8 +26,14 @@ class LDAClassification(val k:Int) extends ClassificationModel {
   }
 
   def fit(data: DenseMatrix[Double], labels: List[Double]) = {
-      val data_arr:List[DenseVector[Double]] = data(*,::).toIndexedSeq.toList.map(x => x.t)
-      fit2(data_arr,labels)
+//   不能直接使用这种操作 val data_arr:List[DenseVector[Double]] = data(*,::).toIndexedSeq.toList.map(x => x.t)
+    val samples = ArrayBuffer[DenseVector[Double]]()
+    for(i <- 0 until data.rows){
+     val sample_i =  data(i,::)
+      samples.append(sample_i.t)
+    }
+
+      fit2(samples.toList,labels)
   }
 
   def computeLDA(dataAndLabels: List[(Double, DenseVector[Double])],k:Int)= {
@@ -82,7 +90,11 @@ object LDAClassification{
     val testY = train_test_data._4
 
     val lda = new LDAClassification(3)
+//    lda.fit2(trainX.toList.map(x=>DenseVector(x:_*)),trainY.toList)
     lda.fit(DenseMatrix(trainX:_*),trainY.toList)
+
+    println(lda.centerVectors)
+    println(lda.weights)
     val pred = lda.predict(DenseMatrix(testX:_*))
     val acc =  Metric.accuracy(pred.toArray,testY) * 100
     println(f"准确率为: $acc%-5.2f%%")
