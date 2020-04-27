@@ -16,6 +16,15 @@ object EntropyCalcGain extends CalcInfoGain{
   }
 }
 
+object EntropyCalcGini extends CalcInfoGain{
+  override def impurity_calculation(y: Array[Double], y1: Array[Double], y2: Array[Double]): Double = {
+    val p:Double = y1.length.toDouble / y.length
+    val entropy = Utils.caclulate_gini(y)
+    val info_gain = entropy - p * Utils.caclulate_gini(y1) - (1- p ) * Utils.caclulate_gini(y2)
+    info_gain
+  }
+}
+
 object VarianceCalcGain extends CalcInfoGain{
   override def impurity_calculation(y: Array[Double], y1: Array[Double], y2: Array[Double]): Double = {
     val variance = Utils.calculate_variance(y)

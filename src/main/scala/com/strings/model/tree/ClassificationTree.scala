@@ -7,7 +7,7 @@ class ClassificationTree(override val min_samples_split:Int=2,
   var featureIndex: Array[Int] = _
 
   override def init_impurity_calc(): Unit = {
-    _impurity_calculation = EntropyCalcGain
+    _impurity_calculation = EntropyCalcGini
   }
 
   override def init_leaf_value_calc(): Unit = {
