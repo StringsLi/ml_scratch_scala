@@ -68,10 +68,8 @@ object Isomap {
   def mds(dist:DenseMatrix[Double],k:Int):DenseMatrix[Double] = {
     val M_r:Transpose[DenseVector[Double]]  = mean(dist, Axis._0)
     val M_c:DenseVector[Double] = mean(dist,Axis._1)
-    val meanDist:Double = mean(dist)
     val B1:DenseMatrix[Double] = dist(::,*).map(x => x - M_c)
-    val B = (B1(*,::).map(x => x - M_r.t )  :+ meanDist):* (-0.5)
-//    val B = (dist(::,*).map(x => x - M_c - M_r.t) :+ meanDist) :* (-0.5)
+    val B = (B1(*,::).map(x => x - M_r.t )  :+ mean(dist)):* (-0.5)
     val eigen = eig(B)
     val eigenvectors = (0 until eigen.eigenvectors.cols).map(eigen.eigenvectors(::, _))
     val eigenValues = eigen.eigenvalues.toArray
