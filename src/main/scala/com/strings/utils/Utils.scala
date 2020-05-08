@@ -91,6 +91,12 @@ object Utils {
     outMat
   }
 
+  def sign(d: Double): Double ={
+    if(d > 0.0) 1.0
+    else if(d < 0.0) -1.0
+    else 0.0
+  }
+
 
 
 }
