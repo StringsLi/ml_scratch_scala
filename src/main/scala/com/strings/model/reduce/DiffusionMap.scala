@@ -15,7 +15,7 @@ import com.strings.utils.{FileUtils, Utils}
 class DiffusionMap(var d:Int = 2, sigma:Double = 100, t:Int = 2) {
 
   def transform(X:List[DenseVector[Double]]):DenseMatrix[Double] = {
-    val X_dist = pow(DenseMatrix(Utils.pair_distance(X):_*),2) :/(-sigma.toDouble)
+    val X_dist = pow(DenseMatrix(Utils.pair_distance(X):_*),t) :/(-sigma.toDouble)
     val K = exp(X_dist)
     val colUSum:DenseVector[Double] = sum(K,Axis._1)
 
@@ -29,7 +29,7 @@ class DiffusionMap(var d:Int = 2, sigma:Double = 100, t:Int = 2) {
     vi.t(*,::).map(x => x :* topValues.map(math.pow(_,t.toDouble)))
 
   }
-
+t
 
 }
 
