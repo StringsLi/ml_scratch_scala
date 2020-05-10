@@ -15,7 +15,7 @@ class SVMClassification(C:Double = 1.0,
   var X:Array[Array[Double]] = _
   var y:Array[Double] = _
 
-  def fit(XX:Array[Array[Double]], yy:Array[Double]) = {
+  def fit(XX:Array[Array[Double]], yy:Array[Double]):Unit = {
     X = XX
     y = yy
     val n_samples = X.length
@@ -23,7 +23,7 @@ class SVMClassification(C:Double = 1.0,
     K = Array.fill(n_samples,n_samples)(0.0)
     sv_inx = Array.range(0,n_samples)
     for(i <- 0 until n_samples){
-      K(i) = kernel(X,X(i))  // 有些问题
+      K(i) = kernel(X,X(i))  // 有些问题,后面把K转置就OK了
     }
     transpose(K)
     var flag = true
@@ -51,8 +51,8 @@ class SVMClassification(C:Double = 1.0,
 
             val b1 = b - e_i - y(i) *(alpha(i) - alpha_io)*K(i)(i)
                             -y(j) *(alpha(j) - alpha_jo)*K(i)(j)
-            val b2 = b - e_j - y(j) *(alpha(j) - alpha_jo)*K(j)(j)
-                        -y(i)*(alpha(i) - alpha_io)*K(i)(j)
+            val b2 = (b - e_j - y(j) *(alpha(j) - alpha_jo)*K(j)(j)
+                        -y(i)*(alpha(i) - alpha_io)*K(i)(j))
 
             if (alpha(i) > 0 && alpha(i) < C) b = b1
             else if (alpha(j) > 0 && alpha(j) < C) b = b2
@@ -64,14 +64,13 @@ class SVMClassification(C:Double = 1.0,
           flag = false
         }
       }
-
       println(s"Convergence has reached after $iter.")
     }
     sv_inx = alpha.indices.filter(i => alpha(i) > 0).toArray // 挑选支持向量的编号
 
   }
 
-  def _find_bounds(i:Int,j:Int)={
+  def _find_bounds(i:Int,j:Int):(Double,Double)={
     var L,H = 0.0
     if (y(i) != y(j)) {
       L = math.max(0.0,alpha(j) - alpha(i))
@@ -102,7 +101,7 @@ class SVMClassification(C:Double = 1.0,
     j
   }
 
-  def _predict_row(x:Array[Double]) = {
+  def _predict_row(x:Array[Double]):Double = {
     val selectX = sv_inx.map(X(_))
     val k_v = kernel(selectX,x)
 
@@ -115,7 +114,7 @@ class SVMClassification(C:Double = 1.0,
 
   }
 
-  def _error(i:Int) = {
+  def _error(i:Int):Double = {
     _predict_row(X(i)) - y(i)
   }
 

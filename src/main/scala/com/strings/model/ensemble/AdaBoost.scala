@@ -66,7 +66,7 @@ class AdaBoost(val nEstimator:Int = 5) {
     val y_pred = Array.fill(n_samples)(0.0)
     for(clf <- trees){
       val predictions = Array.fill(n_samples)(1.0)
-      val negative_idx = X.map(_(clf.featureIndex)).zipWithIndex.filter(_._1 * clf.polarity < clf.polarity * clf.threshold).map(_._2)
+      val negative_idx = X.map(_.apply(clf.featureIndex)).zipWithIndex.filter(_._1 * clf.polarity < clf.polarity * clf.threshold).map(_._2)
       negative_idx.foreach(predictions(_) = -1.0)
       for(i <- 0 until n_samples){
         y_pred(i) += clf.alpha * predictions(i)
