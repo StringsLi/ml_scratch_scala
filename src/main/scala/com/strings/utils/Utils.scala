@@ -11,7 +11,7 @@ object Utils {
     val unique_labels = y.toSet.toArray
     var entropy:Double = 0.0
     for (label <-  unique_labels) {
-      val count:Int = y.filter(_ ==label).length
+      val count:Int = y.count(_ ==label)
       val p:Double = count / y.length.toDouble
       entropy += -p * log2(p)
     }

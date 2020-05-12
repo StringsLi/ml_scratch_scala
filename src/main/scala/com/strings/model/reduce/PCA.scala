@@ -1,28 +1,14 @@
 package com.strings.model.reduce
 
-import java.io.{File, PrintWriter}
 
-import breeze.linalg.{*, DenseMatrix, eig}
-import breeze.stats.mean
+import breeze.linalg.{DenseMatrix, eig}
 import com.strings.data.Data
-import com.strings.utils.FileUtils
+import com.strings.utils.{FileUtils, MatrixUtils}
 
 object PCA {
 
-  def calculate_covariance_matrix(X:DenseMatrix[Double]):DenseMatrix[Double] = {
-    val meanVec = mean(X(::,*))
-    val dim = X.cols
-    val total_sample = X.rows
-    var scatter_mat = DenseMatrix.zeros[Double](dim, dim)
-    for (i <- 0 until total_sample) {
-      scatter_mat += (X(i,::) - meanVec).t*(X(i,::) - meanVec)
-    }
-    val res = scatter_mat / (total_sample.toDouble - 1.0)
-    res
-  }
-
   def transform(X: DenseMatrix[Double], numComponents: Int):DenseMatrix[Double] = {
-    val scaterMatrix = calculate_covariance_matrix(X)
+    val scaterMatrix = MatrixUtils.calculate_covariance_matrix(X)
     val eigen = eig(scaterMatrix)
     val eigenvectors = (0 until eigen.eigenvectors.cols).map(eigen.eigenvectors(::, _))
     val eigenValues = eigen.eigenvalues.toArray

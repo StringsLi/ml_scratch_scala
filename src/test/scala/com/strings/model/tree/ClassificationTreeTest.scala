@@ -7,7 +7,7 @@ object ClassificationTreeTest {
 
   def main(args: Array[String]): Unit = {
     val data = Data.iris4MutilClassification()
-    val train_test_data = Data.train_test_split(data._1,data._2,0.1,seed = 1224L)
+    val train_test_data = Data.train_test_split(data._1,data._2,0.2,seed = 1224L)
     val trainX = train_test_data._1
     val trainY = train_test_data._2
     val testX = train_test_data._3

@@ -150,7 +150,6 @@ object SVMClassification{
 
     }
     val svm = new SVMClassification(kernel = linear_kernel)
-    //    lda.fit2(trainX.toList.map(x=>DenseVector(x:_*)),trainY.toList)
     svm.fit(trainX,trainY)
 
     val pred = svm.predict(testX)

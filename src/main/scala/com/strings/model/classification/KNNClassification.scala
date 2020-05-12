@@ -8,15 +8,15 @@ import com.strings.model.metric.Metric
  * @param k the neigbors of the dataset
  * @param dataX featurs
  * @param dataY labels
- * @param distanceFunctype distance function type: Euclidean ,Manhattan
+ * @param distanceFunction distance function type: Euclidean ,Manhattan
  */
 
 class KNNClassification(k: Int,
                         dataX: DenseMatrix[Double],
                         dataY: Seq[Double],
-                        distanceFunctype: String = "Euclidean") extends ClassificationModel {
+                        distanceFunction: String = "Euclidean") extends ClassificationModel {
 
- val  distanceFn = distanceFunctype match {
+ private val  distanceFn = distanceFunction match {
    case "Euclidean" => (v1: DenseVector[Double], v2: DenseVector[Double])
                          =>  v1.toArray.zip(v2.toArray)
                            .map(x => scala.math.pow(x._1 - x._2, 2)).sum
@@ -33,7 +33,7 @@ class KNNClassification(k: Int,
    val topKClass =  dataX(*,::).map { x =>
       distanceFn(x,feature)
     }.toArray.zipWithIndex.sortBy(_._1).take(k).map{case (_,idx) => dataY(idx)}
-    topKClass.map((_,1)).groupBy(_._1).map(x => (x._1,x._2.size)).maxBy(_._2)._1
+    topKClass.map((_,1)).groupBy(_._1).map(x => (x._1,x._2.length)).maxBy(_._2)._1
   }
 
 }

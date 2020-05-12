@@ -5,7 +5,7 @@ import scala.collection.mutable
 abstract class DecisionTree(val min_samples_split:Int=2,
                             val min_impurity:Double=1e-7,
                             val max_depth:Int = 5) {
-  var root: DecisionNode = null
+  var root: DecisionNode = _
   var catColumns: Set[Int] = Set[Int]()
   var _impurity_calculation: CalcInfoGain = _
   var _leaf_value_calc: LeafValueCalc = _
@@ -31,8 +31,8 @@ abstract class DecisionTree(val min_samples_split:Int=2,
     var bestValue: Double = 0
     var bestTrueData = Array[(Double, Array[Double])]()
     var bestFalseData = Array[(Double, Array[Double])]()
-    val columnSize: Int = data.head._2.size
-    val nSamples: Int = data.size
+    val columnSize: Int = data.head._2.length
+    val nSamples: Int = data.length
     if (nSamples >= min_samples_split && current_depth <= max_depth) {
       for (col <- 0 until columnSize) {
         var valueSet: Set[Double] = Set()
@@ -43,7 +43,7 @@ abstract class DecisionTree(val min_samples_split:Int=2,
             else d._2(col) >= value
           }
           val gain = _impurity_calculation.impurity_calculation(data.map(_._1), tData.map(_._1), fData.map(_._1))
-          if (gain > bestGain && tData.size > 0 && fData.size > 0) {
+          if (gain > bestGain && tData.length > 0 && fData.length > 0) {
             bestGain = gain
             bestColumn = col
             bestValue = value
@@ -71,7 +71,7 @@ abstract class DecisionTree(val min_samples_split:Int=2,
     var n = 0 // number of nodes processed
     val queue: mutable.Queue[dotNode] = new scala.collection.mutable.Queue[dotNode]
     queue.enqueue(dotNode(-1, 0, root))
-    while (!queue.isEmpty) { // Dequeue a vertex from queue and print it
+    while (queue.nonEmpty) { // Dequeue a vertex from queue and print it
       val dnode = queue.dequeue()
       val id = dnode.id
       val parent = dnode.parentId

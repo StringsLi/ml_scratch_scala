@@ -1,11 +1,11 @@
 package com.strings.demo
 
-import breeze.linalg.{Axis, DenseMatrix, DenseVector, sum}
+import breeze.linalg.{Axis, DenseMatrix, DenseVector, inv, pinv, sum}
 import breeze.numerics.pow
 
 object Test3 {
 
-  def main(args: Array[String]): Unit = {
+  def main1(args: Array[String]): Unit = {
 
     def _predict(X:DenseMatrix[Double],w:DenseVector[Double],v:DenseMatrix[Double],w_0:Double):DenseVector[Double]= {
       val linear_output = X * w
@@ -25,6 +25,21 @@ object Test3 {
 
     println(res)
 
+  }
+
+  def main(args: Array[String]): Unit = {
+
+    val sample = DenseVector(Array(1.0,2.0,3.0))
+    val mean = DenseVector(Array(1.0,1.0,1.0))
+
+    val arr = Array(Array(1.0,2.0,5.0),Array(4.0,5.0,6.0),Array(7.0,8.0,9.0))
+
+    val covar = DenseMatrix(arr:_*)
+    println(pinv(covar)*covar)
+
+    val gram = (sample :- mean).t * pinv(covar) * (sample :- mean)
+
+    println(gram)
   }
 
 }
