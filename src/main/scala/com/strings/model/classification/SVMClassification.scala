@@ -2,12 +2,13 @@ package com.strings.model.classification
 import breeze.linalg.{DenseMatrix, DenseVector}
 import com.strings.data.Data
 import com.strings.model.metric.Metric
+import org.slf4j.LoggerFactory
 
 class SVMClassification(C:Double = 1.0,
                         tol:Double = 1e-6,
                         max_iter:Int = 100,
                         kernel:(Array[Array[Double]], Array[Double]) => Array[Double]) extends ClassificationModel {
-
+  private val logger = LoggerFactory.getLogger(classOf[SVMClassification])
   var alpha:Array[Double] = _
   var b:Double = _
   var K:Array[Array[Double]] = _
@@ -38,7 +39,7 @@ class SVMClassification(C:Double = 1.0,
         if ((e_i * y(i) < -tol && alpha(i) < C) || (e_i * y(i) > tol && alpha(i) > 0)) {
           val eta = 2.0 * K(i)(j) - K(i)(i) - K(j)(j)
           if(eta>= 0){
-            println("eta >=0 continue")
+            logger.info("eta >=0 continue")
           }else{
             // 计算L, 和H ,参见相关公式, 主要分i=j和i!=j两种情况
             val L = _find_bounds(i,j)._1
@@ -64,7 +65,7 @@ class SVMClassification(C:Double = 1.0,
           flag = false
         }
       }
-      println(s"Convergence has reached after $iter.")
+      logger.info(s"Convergence has reached after $iter.")
     }
     sv_inx = alpha.indices.filter(i => alpha(i) > 0).toArray // 挑选支持向量的编号
 

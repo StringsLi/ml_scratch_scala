@@ -3,7 +3,6 @@ package com.strings.model.cluster
 import breeze.linalg.{DenseMatrix, DenseVector, sum}
 import com.strings.data.Data
 import com.strings.model.metric.Metric
-
 import util.control.Breaks.breakable
 import util.control.Breaks.break
 import scala.collection.mutable.ArrayBuffer

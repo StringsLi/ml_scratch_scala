@@ -54,7 +54,7 @@ class Kmeans(val k:Int = 3,
       val prev_centroid = centroids
       centroids = _calculate_centroids(cluster)
       cluster = ListBuffer[(Int,DenseVector[Double])]()
-      val diff =prev_centroid.zip(centroids).map(x => squaredDistance(x._2,x._1))
+      val diff = prev_centroid.zip(centroids).map(x => squaredDistance(x._2,x._1))
       if( diff.sum < tolerance){
         flag = false
       }
