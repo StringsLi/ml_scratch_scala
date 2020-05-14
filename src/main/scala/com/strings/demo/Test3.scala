@@ -1,6 +1,6 @@
 package com.strings.demo
 
-import breeze.linalg.{Axis, DenseMatrix, DenseVector, inv, pinv, sum}
+import breeze.linalg.{Axis, DenseMatrix, DenseVector, clip, inv, pinv, sum}
 import breeze.numerics.pow
 
 object Test3 {
@@ -40,6 +40,11 @@ object Test3 {
     val gram = (sample :- mean).t * pinv(covar) * (sample :- mean)
 
     println(gram)
+
+    val ff = Array(Array(0.0,1.0),Array(1.0,0.0))
+    val Q = DenseMatrix(ff:_*)
+    val dd = clip(Q,1.0e-100,0.6)
+    println(dd)
   }
 
 }
