@@ -3,7 +3,7 @@ package com.strings.demo
 import breeze.linalg.{Axis, DenseMatrix, DenseVector, clip, inv, pinv, sum}
 import breeze.numerics.pow
 
-object Test3 {
+object BreezeDemo2 {
 
   def main1(args: Array[String]): Unit = {
 

@@ -39,7 +39,7 @@ class DBSCAN(eps:Double = 1.0,
       if(!visited_samples.contains(neighbor_i)){
         visited_samples.append(neighbor_i)
         neighbors += (neighbor_i -> _get_neighbors(neighbor_i) )
-        if (neighbors(neighbor_i).size >= min_samples){   //        neighbors.get(neighbor_i).size 结果是1
+        if (neighbors(neighbor_i).length >= min_samples){   //        neighbors.get(neighbor_i).size 结果是1
           val expanded_cluster = _expand_cluster(neighbor_i,neighbors(neighbor_i))
           cluster.append(expanded_cluster:_*)
         }else{
@@ -58,10 +58,6 @@ class DBSCAN(eps:Double = 1.0,
       }
     }
     labels
-  }
-
-  def init(XX:DenseMatrix[Double]) {
-    X = XX
   }
 
   def predict(XX:DenseMatrix[Double]): Array[Int] ={

@@ -2,7 +2,7 @@ package com.strings.demo
 
 import breeze.linalg.{*, DenseMatrix, DenseVector, max}
 
-object BreezeDemo {
+object BreezeDemo1 {
 
   def main(args: Array[String]): Unit = {
 

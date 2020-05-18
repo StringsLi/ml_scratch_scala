@@ -44,8 +44,8 @@ class GMM(k:Int = 3,
     val X_arr = (0 until X.rows).map(X.t(::,_))
 
     for((sample,index) <- X_arr.zipWithIndex){
-      val d = n_features
-      val coeff = 1.0 / (math.pow(2 * Math.PI,d/2) * math.sqrt(determinant))
+      val n = n_features
+      val coeff = 1.0 / (math.pow(2 * Math.PI,n/2) * math.sqrt(determinant))
       val gram = (sample :- mean).t * pinv(covar) * (sample :- mean)
       val exponent = math.exp(-0.5 * gram)
       likelihoods(index) = coeff * exponent
@@ -97,7 +97,6 @@ class GMM(k:Int = 3,
         }else{
           val n = responsibilities.length
           val diff = norm(responsibilities(n-1) - responsibilities(n-2), 2)
-          println(diff)
           if (diff <= tolerance) flag = false
         }
     }
