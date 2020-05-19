@@ -1,6 +1,6 @@
 package com.strings.utils
 
-import breeze.linalg.{*, DenseMatrix}
+import breeze.linalg.{*, DenseMatrix, DenseVector, sum}
 import breeze.stats.mean
 
 object MatrixUtils extends  Serializable {
@@ -15,6 +15,11 @@ object MatrixUtils extends  Serializable {
     }
     val res = scatter_mat / (total_sample.toDouble - 1.0)
     res
+  }
+
+  def euclidean_distance(x1: DenseVector[Double], x2: DenseVector[Double]): Double = {
+    require(x1.length == x2.length)
+    math.sqrt(sum((x1 :- x2) :* (x1 :- x2)))
   }
 
 
