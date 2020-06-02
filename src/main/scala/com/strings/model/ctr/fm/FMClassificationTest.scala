@@ -18,7 +18,7 @@ object FMClassificationTest {
     /***
      * 程序不太健壮，有时候的结果特别不好。
      */
-    val fm_clf = new FMClassification(learning_rate = 0.05,max_iter = 10)
+    val fm_clf = new FMClassification(learning_rate = 0.05,max_iter = 200)
     fm_clf.fit(DenseMatrix(trainX:_*),DenseVector(trainY:_*))
     val pred = fm_clf.predict(DenseMatrix(testX:_*))
     val acc =  Metric.accuracy(pred.toArray,testY) * 100
