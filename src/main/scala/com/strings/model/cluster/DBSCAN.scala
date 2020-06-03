@@ -91,9 +91,9 @@ object DBSCAN{
     val data = irisData.map(_.slice(0,4)).toList
     val target = irisData.map(_.apply(4))
 
-    val dbscan = new DBSCAN(eps = .7,min_samples = 5)
+    val dbScan = new DBSCAN(eps = .7,min_samples = 5)
 
-    val pred = dbscan.predict(DenseMatrix(data:_*))
+    val pred = dbScan.predict(DenseMatrix(data:_*))
     println(pred.toList)
     val acc =  Metric.accuracy(pred.map(_.toDouble),target) * 100
     println(f"准确率为: $acc%-5.2f%%")

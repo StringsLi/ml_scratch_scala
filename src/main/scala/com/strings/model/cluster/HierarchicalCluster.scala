@@ -28,7 +28,7 @@ class HierarchicalCluster(k:Int) {
     }
     labels = DenseVector.ones[Int](n_samples) :* (-1)
     var distances: Map[(Int, Int), Double] = Map()
-    var curret_cluster_id = -1
+    var current_cluster_id = -1
     while (nodes.length > k){
       var min_dist = Double.MaxValue
       val nodes_len = nodes.length
@@ -57,9 +57,9 @@ class HierarchicalCluster(k:Int) {
           (node1.count + node2.count)
       }
       val new_count = node1.count + node2.count
-      val new_node = ClusterNode(new_vec,curret_cluster_id,node1,node2, min_dist,new_count)
+      val new_node = ClusterNode(new_vec,current_cluster_id,node1,node2, min_dist,new_count)
 
-      curret_cluster_id -= 1
+      current_cluster_id -= 1
       nodes.remove(part2)
       nodes.remove(part1)
       nodes.append(new_node)

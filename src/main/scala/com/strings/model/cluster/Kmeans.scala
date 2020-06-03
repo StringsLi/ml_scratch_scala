@@ -62,7 +62,7 @@ class Kmeans(val k:Int = 3,
 
   }
 
-  def predit(data:List[DenseVector[Double]]):List[(Int,DenseVector[Double])]= {
+  def predict(data:List[DenseVector[Double]]):List[(Int,DenseVector[Double])]= {
     data.map(x => _closest_centroid(centroids,x))
   }
 
