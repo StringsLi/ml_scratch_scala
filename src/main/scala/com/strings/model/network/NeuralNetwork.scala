@@ -75,7 +75,7 @@ class NeuralNetwork(lr:Double = .001,
 
       var f = x_batch
       // Forward
-      for (layer <- 0 to seq.layers.size-1) {
+      for (layer <- 0 until seq.layers.size) {
         f = seq.layers.get(layer).forward(f)
       }
       var softmax = f
@@ -119,7 +119,7 @@ class NeuralNetwork(lr:Double = .001,
         }
       }
       if (iterations % 10 == 0) {
-        println("Iterations: " + iterations + " Training Loss: " + evaluate(seq, x(0 until 1000, ::), y(0 until 1000)))
+        println("Iterations: " + iterations + " Training Acc: " + evaluate(seq, x(0 until 1000, ::), y(0 until 1000)))
       }
     }
     seq

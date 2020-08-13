@@ -28,7 +28,7 @@ object SoftMax extends ActivationFunc{
   override def value(x: DenseMatrix[Double]): DenseMatrix[Double] = {
     val softmax = exp(x)
     val divisor = breeze.linalg.sum(softmax(*, ::))
-    for (i <- 0 to softmax.cols-1){
+    for (i <- 0 until softmax.cols){
       softmax(::, i) := softmax(::, i) :/ divisor
     }
     softmax
