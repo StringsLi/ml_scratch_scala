@@ -24,7 +24,7 @@ object LogisticLoss extends Loss{
   override def hess(pred: Array[Double], label: Array[Double]): Array[Double] = {
     val  pred1 = transform(pred)
     val  ret = new Array[Double](pred.length)
-    for(i<- 0 until ret.length){
+    for(i<- ret.indices){
       ret(i) = pred1(i) * (1.0 - pred1(i))
     }
     ret
@@ -33,7 +33,7 @@ object LogisticLoss extends Loss{
   override def gradient(pred: Array[Double], label: Array[Double]): Array[Double] = {
     val pred1 = transform(pred)
     val ret = new Array[Double](pred1.length)
-    for(i <- 0 until pred1.length) {
+    for(i <- pred1.indices) {
       ret(i) = pred1(i) - label(i)
     }
     ret
@@ -41,7 +41,7 @@ object LogisticLoss extends Loss{
 
   override def transform(pred: Array[Double]): Array[Double] = {
     val ret = new Array[Double](pred.length)
-    for(i <- 0 until pred.length) {
+    for(i <- pred.indices) {
       ret(i) = Utils.clip(1.0 / (1.0 + math.exp(-pred(i))))
     }
     ret
