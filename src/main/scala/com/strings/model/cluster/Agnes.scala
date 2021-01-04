@@ -23,22 +23,18 @@ class Agnes(n_clusters:Int) {
     }
 
     for (j <- Range(n_samples, n_clusters, -1)) {
-      val centers = clusters.map { t =>
-        val aa = t.map(X.t(::, _))
-        val mm = DenseMatrix(aa: _*)
-        val me = mean(mm, Axis._0).t
-        me
+      val centers = clusters.map { r =>
+        mean(DenseMatrix(r.map(X.t(::, _)): _*), Axis._0).t
       }
       val distance:ArrayBuffer[DenseVector[Double]] = new ArrayBuffer[DenseVector[Double]]()
-      for (j <- 0 until centers.length) {
+      for (j <- centers.indices) {
         val d = centers.map(f => MatrixUtils.euclidean_distance(f, centers(j)))
          distance.append(DenseVector(d.toArray))
       }
       val diagMat = diag(DenseVector.fill(j){Double.MaxValue})
-
       val near_indexes = argmin(DenseMatrix(distance:_*) :+ diagMat)
 
-      clusters(near_indexes._1).append(near_indexes._2)
+      clusters(near_indexes._1).append(clusters(near_indexes._2):_*)
       clusters.remove(near_indexes._2)
 
     }
@@ -46,7 +42,7 @@ class Agnes(n_clusters:Int) {
 
  def predict(X: DenseMatrix[Double]): DenseVector[Int] ={
    val y = Array.fill(X.rows)(0)
-   for(i <- Range(0,clusters.length)){
+   for(i <- clusters.indices){
      for(j <- clusters(i)){
        y(j) = i
      }
@@ -60,11 +56,11 @@ object Agnes {
   def main(args: Array[String]): Unit = {
     val irisData = Data.irisData
     val data = irisData.map(_.slice(0, 4))
-    val dd = DenseMatrix(data: _*)
-    val ag = new Agnes(n_clusters = 3)
-    ag.fit(dd)
+    val mat = DenseMatrix(data: _*)
+    val agnes = new Agnes(n_clusters = 3)
+    agnes.fit(mat)
 
-    val label = ag.predict(dd)
+    val label = agnes.predict(mat)
     println(label)
 
 
