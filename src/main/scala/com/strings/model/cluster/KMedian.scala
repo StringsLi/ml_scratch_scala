@@ -2,14 +2,15 @@ package com.strings.model.cluster
 
 import breeze.linalg.{DenseVector, squaredDistance}
 import com.strings.data.Data
+import com.strings.utils.MatrixUtils
 
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
-class Kmeans(val k:Int = 3,
+class KMedian(val k:Int = 3,
              val max_iter:Int = 100,
              val seed:Long = 1234L,
-             val tolerance: Double = 1e-4){
+             val tolerance: Double = 1e-3){
 
   private var centroids = List[DenseVector[Double]]()
   private var cluster = ListBuffer[(Int,DenseVector[Double])]()
@@ -22,22 +23,9 @@ class Kmeans(val k:Int = 3,
     rng.shuffle(data).take(k)
   }
 
-  def _closest_centroid2(centroids:List[DenseVector[Double]],row:DenseVector[Double]):(Int,DenseVector[Double]) = {
-        var close_i = 0
-        var closest_dist = -1.0
-        centroids.zipWithIndex.foreach(centroid => {
-          val distance = squaredDistance(centroid._1,row)
-          if(closest_dist>distance || closest_dist == -1.0){
-            closest_dist = distance
-            close_i = centroid._2
-          }
-        })
-    (close_i,row)
-  }
-
   def _closest_centroid(centroids:List[DenseVector[Double]],row:DenseVector[Double]):(Int,DenseVector[Double]) = {
       val distWithIndex =  centroids.zipWithIndex.map(x =>
-                          (squaredDistance(x._1,row),x._2)
+                          (MatrixUtils.manhattan_distance(x._1,row),x._2)
                           ).minBy(_._1)
       (distWithIndex._2,row)
   }
@@ -78,13 +66,15 @@ class Kmeans(val k:Int = 3,
   }
 }
 
-object Kmeans{
+object KMedian{
   def main(args: Array[String]): Unit = {
     val irisData = Data.irisData
     val data = irisData.map(_.slice(0,4)).map(DenseVector(_)).toList
-    val kmeans = new Kmeans(max_iter = 100)
-    kmeans.train(data)
-    println(kmeans.label)
-
+    val kmedian = new KMedian(max_iter = 1000)
+    kmedian.train(data)
+    println("迭代次数为:",kmedian.iterations)
+    println(kmedian.label)
   }
 }
+
+

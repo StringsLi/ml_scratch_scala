@@ -1,6 +1,7 @@
 package com.strings.utils
 
 import breeze.linalg.{*, DenseMatrix, DenseVector, sum}
+import breeze.numerics.abs
 import breeze.stats.mean
 
 object MatrixUtils extends  Serializable {
@@ -22,6 +23,10 @@ object MatrixUtils extends  Serializable {
     math.sqrt(sum((x1 :- x2) :* (x1 :- x2)))
   }
 
+  def manhattan_distance(x1: DenseVector[Double], x2: DenseVector[Double]): Double = {
+    require(x1.length == x2.length)
+    sum(abs(x1 :- x2))
+  }
 
 
 }
