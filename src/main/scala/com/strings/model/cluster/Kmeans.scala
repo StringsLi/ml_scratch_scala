@@ -13,7 +13,7 @@ class Kmeans(val k:Int = 3,
 
   private var centroids = List[DenseVector[Double]]()
   private var cluster = ListBuffer[(Int,DenseVector[Double])]()
-  private var label = List[Int]()
+  var label = List[Int]()
 
   var iterations:Int = 0
 
