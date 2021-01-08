@@ -19,7 +19,7 @@ class PIC(val k:Int = 3,
 
   def normvec(x:DenseVector[Double]):DenseVector[Double] = {
     val norm1 = sum(x.map(math.abs(_)))
-//    val norm1 = norm(x)
+    val norm2 = norm(x)
     x :/ norm1
   }
 
