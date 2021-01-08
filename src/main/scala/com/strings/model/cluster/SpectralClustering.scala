@@ -1,9 +1,11 @@
 package com.strings.model.cluster
 
-import breeze.linalg.{Axis, DenseMatrix, DenseVector, diag, eig, inv, sum}
+import breeze.linalg.{*, Axis, DenseMatrix, DenseVector, diag, eig, inv, sum}
 import breeze.numerics.{exp, log}
 import com.strings.data.Data
 import com.strings.utils.Utils
+
+import scala.collection.mutable.ArrayBuffer
 
 /**
  * 谱聚类
@@ -26,14 +28,18 @@ class SpectralClustering(val k:Int = 3,
     val D = diag(sum(W,Axis._1))
     val L = inv(D) * (D - W)
     val eigen = eig(L)
-    val eigenvectors = (0 until eigen.eigenvectors.cols).map(eigen.eigenvectors(::, _))
-    val eigenValues = eigen.eigenvalues.toArray
-    val topEigenvectors = eigenvectors.zip(eigenValues).sortBy(x => -scala.math.abs(x._2)).map(_._1).take(k)
 
+    val eigenvectors = (0 until k).map(eigen.eigenvectors(::, _))
+    val U = DenseMatrix(eigenvectors:_*)
+
+    val samples = ArrayBuffer[DenseVector[Double]]()
+    for(i <- 0 until U.cols){
+      val sample_i =  U(::,i)
+      samples.append(sample_i)
+    }
     val kmeans = new Kmeans(k = k)
-    kmeans.train(topEigenvectors.toList)
+    kmeans.train(samples.toList)
      kmeans.label
-
   }
 
 }
