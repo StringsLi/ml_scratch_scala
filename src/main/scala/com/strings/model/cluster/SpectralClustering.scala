@@ -10,6 +10,9 @@ import scala.collection.mutable.ArrayBuffer
 /**
  * 谱聚类
  *
+ * Compute the rbf (gaussian) kernel between X and Y::
+ * K(x, y) = exp(-sigma ||x-y||^2)
+ *
  */
 
 class SpectralClustering(val k:Int = 3,
