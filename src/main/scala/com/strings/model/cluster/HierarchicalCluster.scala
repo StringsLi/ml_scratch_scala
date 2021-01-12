@@ -6,15 +6,14 @@ import com.strings.utils.MatrixUtils
 
 import scala.collection.mutable.ArrayBuffer
 
-
-case class ClusterNode(vector:DenseVector[Double],
-                       id:Int,
-                       left:ClusterNode = null,
-                       right:ClusterNode = null,
-                       distance:Double = -1.0,
-                       count:Int = 1)
-
 class HierarchicalCluster(k:Int) {
+
+  case class ClusterNode(vector:DenseVector[Double],
+                         id:Int,
+                         left:ClusterNode = null,
+                         right:ClusterNode = null,
+                         distance:Double = -1.0,
+                         count:Int = 1)
 
   var labels:DenseVector[Int] = _
 
