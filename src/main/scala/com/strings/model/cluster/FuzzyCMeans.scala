@@ -1,107 +1,99 @@
 package com.strings.model.cluster
 
-import breeze.linalg.{*, Axis, DenseMatrix, DenseVector, argmax, norm, squaredDistance, sum}
-import breeze.numerics.pow
+import breeze.linalg.{*, Axis, DenseMatrix, DenseVector, argmax, max, sum}
+import breeze.numerics.{abs, pow, sqrt}
 import breeze.stats.distributions.Rand
 import com.strings.data.Data
-
-import scala.util.Random
+import scala.collection.mutable.ArrayBuffer
 import scala.util.control.Breaks
 
-class FuzzyCMeans(val k:Int = 4,
-                  val fuzziness:Int = 2,
-                  val epsilon: Double = 1e-8,
-                  val seed:Long = 1234L,
-                  val max_iter: Int = 10000){
+class FuzzyCMeans(val k: Int = 4,
+                    val fuzziness: Int = 2,
+                    val epsilon: Double = 1e-6,
+                    val seed: Long = 1234L,
+                    val max_iter: Int = 10000) {
 
-  private var data:List[DenseVector[Double]] = _
-  private var fuzzyMatrix:DenseMatrix[Double] = _
-  private var centrids:List[DenseVector[Double]] = _
-  private var iter_c:Int = _
+  private var U: DenseMatrix[Double] = _
+  private var centroids:List[DenseVector[Double]] = _
 
-  def _init_random_centroids(data : List[DenseVector[Double]]):List[DenseVector[Double]] = {
-    val rng  = new Random(seed)
-    rng.shuffle(data).take(k)
+  def initializeU(data: List[DenseVector[Double]]):DenseMatrix[Double] = {
+    var U:DenseMatrix[Double] = DenseMatrix.rand(data.length, k,rand = Rand.gaussian)
+    U = U(::, *) / sum(U, Axis._1)
+    U
   }
 
-  def euclidean_distance(x1:DenseVector[Double],x2:DenseVector[Double]): Double ={
-    math.sqrt(sum((x1 :- x2) :* (x1 :- x2)))
+  def distance(X: List[DenseVector[Double]], centroid:DenseVector[Double]):DenseVector[Double] ={
+    val tmp:List[DenseVector[Double]] = X.map(x => pow(x - centroid,2))
+      val mat = DenseMatrix(tmp:_*)
+    sqrt(sum(mat,Axis._1))
   }
 
-  def fit(X:List[DenseVector[Double]])= {
-    data = X
-    fuzzyMatrix = DenseMatrix.rand(data.length, k, rand = Rand.uniform)
-    fuzzyMatrix = fuzzyMatrix(::, *) / sum(fuzzyMatrix, Axis._1)
 
-    println(fuzzyMatrix)
+  def computeU(X: List[DenseVector[Double]]):DenseMatrix[Double] = {
 
-    centrids = _init_random_centroids(data)
-    var fuzzy_matrix_powerd = pow(fuzzyMatrix, fuzziness)
+    val n_samples = X.length
+    var U:DenseMatrix[Double] = DenseMatrix.zeros(n_samples,k)
 
-    var sse_error = 0.0
-
-    for (j <- 0 until k) {
-      for (i <- 0 until data.length) {
-        sse_error = sse_error + fuzzy_matrix_powerd(i, j) * math.pow(norm(data(i) - centrids(j)), 2)
+    for(i <- 0 until k){
+      for(j <- 0 until k){
+        val numerator = distance(X,centroids(i))
+        val denominator = distance(X,centroids(j))
+        U(::,i) :+= pow(numerator :/ denominator,2.0 /(fuzziness - 1))
       }
     }
+    U = 1.0 / U
+    U
+  }
+
+
+  def fit(data: List[DenseVector[Double]]):DenseVector[Int] = {
+    val n_samples = data.length
+    U = initializeU(data)
+    var U_old = DenseMatrix.zeros[Double](n_samples,k)
+
     var iter_count = 1
 
     Breaks.breakable {
       for (_ <- Range(0, max_iter)) {
         iter_count += 1
-
-        fuzzy_matrix_powerd = pow(fuzzyMatrix, fuzziness)
-
-        fuzzy_matrix_powerd = fuzzy_matrix_powerd(::, *) / sum(fuzzy_matrix_powerd, Axis._1)
-
-        val new_centroid = fuzzy_matrix_powerd.t * DenseMatrix(data: _*)
-
-        var new_fuzzy_matrix = DenseMatrix.zeros[Double](data.length, k)
-
-        for (i <- 0 until new_fuzzy_matrix.rows) {
-          for (j <- 0 until new_fuzzy_matrix.cols) {
-            val centroid_j = (0 until k).map(new_centroid.t(::, _))
-            new_fuzzy_matrix(i, j) = 1.0 / norm(data(i) - centroid_j.apply(j))
-          }
+        val centriods_new:ArrayBuffer[DenseVector[Double]] = new ArrayBuffer[DenseVector[Double]]()
+        for(i <- 0 until k){
+          val U_i = (0 until k).map(U(::,_)).apply(i)
+          val U_i_Powerd = pow(U_i,fuzziness)
+          val centroid = DenseMatrix(data:_*).t * U_i_Powerd
+          val sum1:Double = sum(U_i_Powerd)
+          centriods_new.append(centroid / sum1)
         }
 
-        new_fuzzy_matrix = pow(new_fuzzy_matrix, 2.0 / (fuzziness - 1))
-        new_fuzzy_matrix = fuzzy_matrix_powerd(::, *) / sum(fuzzy_matrix_powerd, Axis._1)
-        val new_fuzzy_matrix_powered = pow(new_fuzzy_matrix, fuzziness)
-        var new_sse_err = 0.0
+        U_old = U.copy
+        centroids = centriods_new.toList
+        U = computeU(data)
 
-        for (j <- 0 until k) {
-          for (i <- 0 until data.length) {
-            new_sse_err += new_fuzzy_matrix_powered(i, j) * math.pow(norm(data(i) - centrids(j)), 2)
-          }
-        }
-        if (math.abs(sse_error - new_sse_err) < epsilon){
+        if (max(abs(U - U_old)) < epsilon) {
           Breaks.break()
         }
-        centrids = (0 until k).map(new_centroid.t(::, _)).toList
-        fuzzyMatrix = new_fuzzy_matrix
-
       }
     }
 
-    iter_c = iter_count
-    argmax(fuzzyMatrix,Axis._1)
+    argmax(U, Axis._1)
   }
-
 
 
 }
 
-object FuzzyCMeans{
+object FuzzyCMeans {
   def main(args: Array[String]): Unit = {
 
     val irisData = Data.irisData
-    val data = irisData.map(_.slice(0,4)).map(DenseVector(_)).toList
-    val kmeans = new FuzzyCMeans(k = 3)
+    val data = irisData.map(_.slice(0, 4)).map(DenseVector(_)).toList
+    val kmeans = new FuzzyCMeans(k = 3,max_iter = 5000)
     val label = kmeans.fit(data)
+
     println(label)
-    println(kmeans.iter_c)
+    println(kmeans.centroids)
 
   }
 }
+
+
+
