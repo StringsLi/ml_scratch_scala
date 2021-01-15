@@ -1,6 +1,6 @@
 package com.strings.model.cluster
 
-import breeze.linalg.{Axis, DenseMatrix, DenseVector, diag, eig, inv, max, norm, sum}
+import breeze.linalg.{DenseMatrix, DenseVector, max, sum}
 import breeze.numerics.{abs, exp}
 import com.strings.data.Data
 import com.strings.utils.Utils
@@ -19,7 +19,6 @@ class PIC(val k:Int = 3,
 
   def normvec(x:DenseVector[Double]):DenseVector[Double] = {
     val norm1 = sum(x.map(math.abs(_)))
-    val norm2 = norm(x)
     x :/ norm1
   }
 
@@ -27,7 +26,7 @@ class PIC(val k:Int = 3,
     max(abs(x))
   }
 
-  def fit(X:List[DenseVector[Double]]) = {
+  def fit(X:List[DenseVector[Double]]):List[Int] = {
     val mat:DenseMatrix[Double] = DenseMatrix(Utils.pair_distance(X):_*)
     val n = X.length
 

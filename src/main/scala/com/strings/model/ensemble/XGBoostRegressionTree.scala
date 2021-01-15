@@ -5,10 +5,9 @@ package com.strings.model.ensemble
  *
  * */
 
-import com.strings.model.tree.{CalcInfoGain, DecisionNode}
+import com.strings.model.tree.DecisionNode
 import com.strings.utils.Utils
 
-import scala.collection.mutable
 
 class TaylorGain(val loss:Loss){
   def _gain(y:Array[Double], y_pred:Array[Double]):Double = {
@@ -43,7 +42,7 @@ class XGBoostRegressionTree(val loss:Loss = SquareLoss,
                             val min_samples_split:Int=2,
                             val min_impurity:Double=1e-7,
                             val max_depth:Int = 5) {
-  var root: DecisionNode = null
+  var root: DecisionNode = _
   var catColumns: Set[Int] = Set[Int]()
   var impurity_calculation:TaylorGain = _
 

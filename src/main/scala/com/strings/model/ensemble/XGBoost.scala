@@ -15,7 +15,7 @@ abstract class XGBoost(val nEstimators:Int = 10,
 
   def fit(X:Array[Array[Double]],y:Array[Double]):Unit={
     initLoss
-    for(i <- 0 until nEstimators){
+    for(_ <- 0 until nEstimators){
       val tree = new XGBoostRegressionTree(loss,minSampleSplit,minImpurity,maxDepth)
       trees.append(tree)
     }

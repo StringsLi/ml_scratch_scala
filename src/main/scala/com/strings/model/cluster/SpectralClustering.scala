@@ -1,7 +1,7 @@
 package com.strings.model.cluster
 
-import breeze.linalg.{*, Axis, DenseMatrix, DenseVector, diag, eig, inv, sum}
-import breeze.numerics.{exp, log}
+import breeze.linalg.{Axis, DenseMatrix, DenseVector, diag, eig, inv, sum}
+import breeze.numerics.exp
 import com.strings.data.Data
 import com.strings.utils.Utils
 
@@ -11,7 +11,7 @@ import scala.collection.mutable.ArrayBuffer
  * 谱聚类
  *
  * Compute the rbf (gaussian) kernel between X and Y::
- * K(x, y) = exp(-sigma ||x-y||^2)
+ * K(x, y) = exp(-sigma ||x-y||&#94;2)
  *
  */
 
@@ -21,7 +21,7 @@ class SpectralClustering(val k:Int = 3,
                          val tolerance: Double = 1e-4,
                          val sigma:Double = 100.0) {
 
-  def fit(X:List[DenseVector[Double]]) = {
+  def fit(X:List[DenseVector[Double]]):List[Int] = {
     val mat:DenseMatrix[Double] = DenseMatrix(Utils.pair_distance(X):_*)
     val W=  exp(mat :/ (-2*sigma*sigma))
     val n_samples = X.length
