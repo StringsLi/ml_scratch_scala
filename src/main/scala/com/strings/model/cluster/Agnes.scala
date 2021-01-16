@@ -10,7 +10,7 @@ import com.strings.utils.MatrixUtils
  *  Another version of Hierarchical Cluster implement.
  */
 
-class Agnes(n_clusters:Int) {
+class Agnes(k:Int) {
 
   val clusters: ArrayBuffer[ArrayBuffer[Int]] = new ArrayBuffer[ArrayBuffer[Int]]()
 
@@ -22,7 +22,7 @@ class Agnes(n_clusters:Int) {
       clusters.append(res_i)
     }
 
-    for (j <- Range(n_samples, n_clusters, -1)) {
+    for (j <- Range(n_samples, k, -1)) {
       val centers = clusters.map { r =>
         mean(DenseMatrix(r.map(X.t(::, _)): _*), Axis._0).t
       }
@@ -32,10 +32,10 @@ class Agnes(n_clusters:Int) {
          distance.append(DenseVector(d.toArray))
       }
       val diagMat = diag(DenseVector.fill(j){Double.MaxValue})
-      val near_indexes = argmin(DenseMatrix(distance:_*) :+ diagMat)
+      val nearIndexs = argmin(DenseMatrix(distance:_*) :+ diagMat)
 
-      clusters(near_indexes._1).append(clusters(near_indexes._2):_*)
-      clusters.remove(near_indexes._2)
+      clusters(nearIndexs._1).append(clusters(nearIndexs._2):_*)
+      clusters.remove(nearIndexs._2)
 
     }
   }
@@ -57,7 +57,7 @@ object Agnes {
     val irisData = Data.irisData
     val data = irisData.map(_.slice(0, 4))
     val mat = DenseMatrix(data: _*)
-    val agnes = new Agnes(n_clusters = 3)
+    val agnes = new Agnes(k = 3)
     agnes.fit(mat)
 
     val label = agnes.predict(mat)
