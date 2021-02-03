@@ -5,25 +5,6 @@ import com.strings.data.Dataset
 
 import scala.collection.mutable.ArrayBuffer
 
-
-object RMSProp{
-  def main(args: Array[String]): Unit = {
-    val num_inputs = 2
-    val num_examples = 10000
-    val x_train: BDM[Double] = BDM.rand(num_examples, num_inputs)
-    val ones = BDM.ones[Double](num_examples, 1)
-    val x_cat = BDM.horzcat(ones, x_train)
-    val nos = BDV.rand(num_examples) * 0.1
-    val y_train = x_cat * BDV(2.3, 6.4, -3.2) + nos
-
-    val model = new RMSProp(lr = 0.1,num_iters = 1000)
-    val weights = model.fit(x_train, y_train)
-    println("梯度下降求解的权重为：" + weights._1)
-    println("梯度下降迭代次数：" + weights._2)
-  }
-}
-
-
 class RMSProp(val epsilon:Double = 1e-6,
               val gamma:Double = 0.9,
               val bacthSize:Int = 10,
