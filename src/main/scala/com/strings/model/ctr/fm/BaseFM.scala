@@ -1,6 +1,6 @@
 package com.strings.model.ctr.fm
 
-import breeze.linalg.{*, Axis, DenseMatrix, DenseVector, Transpose, sum}
+import breeze.linalg.{Axis, DenseMatrix, DenseVector, sum}
 import breeze.numerics.{pow, sigmoid}
 import breeze.stats.distributions.Rand
 import breeze.stats.mean
@@ -32,7 +32,7 @@ abstract class BaseFM(val n_components:Int = 2,
   }
 
   def _train(X:DenseMatrix[Double],y:DenseVector[Double]):Unit = {
-    for(epoch <- 0 until max_iter){
+    for(_ <- 0 until max_iter){
       val y_pred = _predict(X)
       val loss = fmloss.grad(y,y_pred)
       val w_grad  = (X.t * loss):/ n_samples.toDouble
